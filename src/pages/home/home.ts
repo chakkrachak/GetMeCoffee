@@ -1,6 +1,11 @@
+///<reference types="navitia-sdk"/>
+///<reference types="navitia-sdk-ux"/>
 import {Component, NgZone} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
 import {Geolocation} from "@ionic-native/geolocation";
+import {NavitiaSDKApi} from "navitia-sdk";
+
+declare var NavitiaSDK: NavitiaSDKApi;
 
 @Component({
     selector: 'page-home',
@@ -21,6 +26,7 @@ export class HomePage {
 
     constructor(public navCtrl: NavController, private platform: Platform, private zone: NgZone, private geolocation: Geolocation) {
         this.platform.ready().then(() => {
+            NavitiaSDK.init('9e304161-bb97-4210-b13d-c71eaf58961c');
             this.getGeolocation();
         })
     }
