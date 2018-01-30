@@ -30,16 +30,15 @@ export class HomePage {
                 private platform: Platform,
                 private zone: NgZone,
                 private geolocation: Geolocation,
-                private navitiaHTTP: HTTP
-    ) {
+                private navitiaHTTP: HTTP) {
         this.platform.ready().then(() => {
             NavitiaSDK.init('9e304161-bb97-4210-b13d-c71eaf58961c');
             this.navitiaHTTP.useBasicAuth('9e304161-bb97-4210-b13d-c71eaf58961c', '');
             this.getGeolocation((resp) => {
-                this.reverseGeocode(resp.coords, addressLabel => {
+                this.reverseGeocode(resp.coords, coordsResponse => {
                     this.zone.run(() => {
                         this.currentAddress = {
-                            label: addressLabel,
+                            label: coordsResponse.address.label,
                             coords: resp.coords
                         }
                     });
@@ -61,10 +60,10 @@ export class HomePage {
         }).then((resp) => success(resp)).catch((errorObject) => error(errorObject));
     }
 
-    reverseGeocode(coords: {latitude: number, longitude: number}, success: (addressLabel: string) => void, error: (errorObject) => void) {
-        this.navitiaHTTP.get('https://api.navitia.io/v1/coords/'+ coords.latitude +'%3B' + coords.longitude + '/?', {}, {})
+    reverseGeocode(coords: { latitude: number, longitude: number }, success: (coordsResponse: { address: { label: string } }) => void, error: (errorObject) => void) {
+        this.navitiaHTTP.get('https://api.navitia.io/v1/coords/' + coords.latitude + '%3B' + coords.longitude + '/?', {}, {})
             .then(response => {
-                success(JSON.parse(response.data).address.label);
+                success(JSON.parse(response.data));
             }, reason => {
                 error(errorObject);
             });
