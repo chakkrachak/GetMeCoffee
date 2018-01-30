@@ -10,12 +10,14 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {HTTP} from "@ionic-native/http";
 import {PlacePickerModalComponent} from "../components/place-picker-modal/place-picker-modal";
+import {PlaceCardComponent} from "../components/place-card/place-card";
 
 @NgModule({
     declarations: [
         MyApp,
         HomePage,
-        PlacePickerModalComponent
+        PlacePickerModalComponent,
+        PlaceCardComponent
     ],
     imports: [
         BrowserModule,
@@ -25,7 +27,8 @@ import {PlacePickerModalComponent} from "../components/place-picker-modal/place-
     entryComponents: [
         MyApp,
         HomePage,
-        PlacePickerModalComponent
+        PlacePickerModalComponent,
+        PlaceCardComponent
     ],
     providers: [
         StatusBar,

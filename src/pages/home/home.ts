@@ -81,7 +81,7 @@ export class HomePage {
 
             this.zone.run(() => {
                 this.currentAddress = {
-                    label: data.place.name,
+                    label: data.place[data.place.embedded_type].label,
                     coords: {
                         latitude: Number(data.place[data.place.embedded_type].coord.lat),
                         longitude: Number(data.place[data.place.embedded_type].coord.lon)
