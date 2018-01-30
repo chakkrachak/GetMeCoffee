@@ -8,6 +8,7 @@ import {GoogleMaps} from '@ionic-native/google-maps';
 
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
+import {HTTP} from "@ionic-native/http";
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import {HomePage} from '../pages/home/home';
         SplashScreen,
         Geolocation,
         GoogleMaps,
+        HTTP,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
