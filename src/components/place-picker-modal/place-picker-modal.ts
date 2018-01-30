@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+///<reference types="navitia-sdk"/>
+import {Component, NgZone} from '@angular/core';
+import {NavitiaSDKApi, Place} from "navitia-sdk";
+import {NavParams, ViewController} from "ionic-angular";
 
 /**
  * Generated class for the PlacePickerModalComponent component.
@@ -7,16 +10,43 @@ import { Component } from '@angular/core';
  * Components.
  */
 @Component({
-  selector: 'place-picker-modal',
-  templateUrl: 'place-picker-modal.html'
+    selector: 'place-picker-modal',
+    templateUrl: 'place-picker-modal.html'
 })
 export class PlacePickerModalComponent {
+    places: Array<Place> = [];
+    navitiaSDK: NavitiaSDKApi;
+    userEntry: string;
 
-  text: string;
+    constructor(
+        private viewController: ViewController,
+        params: NavParams,
+        private zone: NgZone) {
+        this.navitiaSDK = params.get('NavitiaSDK');
+    }
 
-  constructor() {
-    console.log('Hello PlacePickerModalComponent Component');
-    this.text = 'Hello World';
-  }
+    fillSuggestions() {
+        if (this.userEntry === undefined || this.userEntry.length === 0) {
+            this.places = [];
+            return;
+        }
 
+        this.navitiaSDK.places.placesRequestBuilder()
+            .withQ(this.userEntry)
+            .get(response => {
+                this.zone.run(() => {
+                    this.places = response.places;
+                });
+            }, errorMessage => {
+                alert(errorMessage);
+            })
+    }
+
+    selectPlace(place: Place) {
+        this.viewController.dismiss({place: place});
+    }
+
+    cancel() {
+        this.viewController.dismiss({place: undefined});
+    }
 }

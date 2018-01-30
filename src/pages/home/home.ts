@@ -1,11 +1,12 @@
 ///<reference types="navitia-sdk"/>
 ///<reference types="navitia-sdk-ux"/>
 import {Component, NgZone} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {ModalController, NavController, Platform} from 'ionic-angular';
 import {Geolocation} from "@ionic-native/geolocation";
-import {NavitiaSDKApi} from "navitia-sdk";
+import {NavitiaSDKApi, Place} from "navitia-sdk";
 import {HTTP} from "@ionic-native/http";
 import {errorObject} from "rxjs/util/errorObject";
+import {PlacePickerModalComponent} from "../../components/place-picker-modal/place-picker-modal";
 
 declare var NavitiaSDK: NavitiaSDKApi;
 
@@ -27,6 +28,7 @@ export class HomePage {
     };
 
     constructor(public navCtrl: NavController,
+                public modalCtrl: ModalController,
                 private platform: Platform,
                 private zone: NgZone,
                 private geolocation: Geolocation,
@@ -71,6 +73,22 @@ export class HomePage {
     }
 
     pickPlace() {
-        alert('CHANGE');
+        let placePickerModal = this.modalCtrl.create(PlacePickerModalComponent, {NavitiaSDK: NavitiaSDK});
+        placePickerModal.onDidDismiss((data: {place: Place}) => {
+            if (data.place === undefined) {
+                return
+            }
+
+            this.zone.run(() => {
+                this.currentAddress = {
+                    label: data.place.name,
+                    coords: {
+                        latitude: Number(data.place[data.place.embedded_type].coord.lat),
+                        longitude: Number(data.place[data.place.embedded_type].coord.lon)
+                    }
+                }
+            });
+        });
+        placePickerModal.present();
     }
 }

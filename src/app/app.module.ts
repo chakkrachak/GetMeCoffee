@@ -24,7 +24,8 @@ import {PlacePickerModalComponent} from "../components/place-picker-modal/place-
     bootstrap: [IonicApp],
     entryComponents: [
         MyApp,
-        HomePage
+        HomePage,
+        PlacePickerModalComponent
     ],
     providers: [
         StatusBar,
