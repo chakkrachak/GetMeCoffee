@@ -9,11 +9,13 @@ import {GoogleMaps} from '@ionic-native/google-maps';
 import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {HTTP} from "@ionic-native/http";
+import {PlacePickerModalComponent} from "../components/place-picker-modal/place-picker-modal";
 
 @NgModule({
     declarations: [
         MyApp,
-        HomePage
+        HomePage,
+        PlacePickerModalComponent
     ],
     imports: [
         BrowserModule,

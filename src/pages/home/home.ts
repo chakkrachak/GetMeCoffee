@@ -35,30 +35,30 @@ export class HomePage {
         this.platform.ready().then(() => {
             NavitiaSDK.init('9e304161-bb97-4210-b13d-c71eaf58961c');
             this.navitiaHTTP.useBasicAuth('9e304161-bb97-4210-b13d-c71eaf58961c', '');
-            this.getGeolocation();
+            this.getGeolocation((resp) => {
+                this.reverseGeocode(resp.coords, addressLabel => {
+                    this.zone.run(() => {
+                        this.currentAddress = {
+                            label: addressLabel,
+                            coords: resp.coords
+                        }
+                    });
+                }, (reason) => {
+                    alert(JSON.stringify(reason));
+                });
+
+            }, (error) => {
+                alert('Error getting location : ' + JSON.stringify(error));
+            });
         })
     }
 
-    getGeolocation() {
+    getGeolocation(success: (response: any) => void, error: (errorObject: any) => void) {
         this.geolocation.getCurrentPosition({
             timeout: 300000,
             enableHighAccuracy: true,
             maximumAge: 3600
-        }).then((resp) => {
-            this.reverseGeocode(resp.coords, addressLabel => {
-                this.zone.run(() => {
-                this.currentAddress = {
-                    label: addressLabel,
-                    coords: resp.coords
-                }
-            });
-            }, (reason) => {
-                alert(JSON.stringify(reason));
-            });
-
-        }).catch((error) => {
-            alert('Error getting location : ' + JSON.stringify(error));
-        });
+        }).then((resp) => success(resp)).catch((errorObject) => error(errorObject));
     }
 
     reverseGeocode(coords: {latitude: number, longitude: number}, success: (addressLabel: string) => void, error: (errorObject) => void) {
@@ -69,5 +69,9 @@ export class HomePage {
                 error(errorObject);
             });
 
+    }
+
+    pickPlace() {
+        alert('CHANGE');
     }
 }
