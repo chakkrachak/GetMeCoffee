@@ -11,7 +11,7 @@ export class Poi {
     constructor(rawPoi: any) {
         this.name = rawPoi.fields.nom_du_cafe;
         this.displayInformation = {
-            addressLabel: rawPoi.fields.address + ' ' + rawPoi.fields.arrondissement + ' Paris'
+            addressLabel: rawPoi.fields.adresse + ' ' + rawPoi.fields.arrondissement + ' Paris'
         };
 
         if (rawPoi.geometry !== undefined) {

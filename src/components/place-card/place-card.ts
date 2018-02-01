@@ -18,8 +18,7 @@ export class PlaceCardComponent {
     set poi(poi) {
         this._poi = poi;
     }
-
-    get poi() {
+    get poi(): Poi {
         return this._poi;
     }
 
