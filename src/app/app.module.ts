@@ -11,6 +11,7 @@ import {HomePage} from '../pages/home/home';
 import {HTTP} from "@ionic-native/http";
 import {PlacePickerModalComponent} from "../components/place-picker-modal/place-picker-modal";
 import {PlaceCardComponent} from "../components/place-card/place-card";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import {PlaceCardComponent} from "../components/place-card/place-card";
     ],
     imports: [
         BrowserModule,
+        HttpModule,
         IonicModule.forRoot(MyApp)
     ],
     bootstrap: [IonicApp],

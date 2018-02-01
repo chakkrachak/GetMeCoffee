@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Poi} from "../../models/Poi";
 
 /**
  * Generated class for the PlaceCardComponent component.
@@ -7,16 +8,22 @@ import { Component } from '@angular/core';
  * Components.
  */
 @Component({
-  selector: 'place-card',
-  templateUrl: 'place-card.html'
+    selector: 'place-card',
+    templateUrl: 'place-card.html'
 })
 export class PlaceCardComponent {
 
-  text: string;
+    _poi: Poi;
+    @Input()
+    set poi(poi) {
+        this._poi = poi;
+    }
 
-  constructor() {
-    console.log('Hello PlaceCardComponent Component');
-    this.text = 'Hello World';
-  }
+    get poi() {
+        return this._poi;
+    }
+
+    constructor() {
+    }
 
 }

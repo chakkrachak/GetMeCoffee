@@ -7,6 +7,9 @@ import {NavitiaSDKApi, Place} from "navitia-sdk";
 import {HTTP} from "@ionic-native/http";
 import {errorObject} from "rxjs/util/errorObject";
 import {PlacePickerModalComponent} from "../../components/place-picker-modal/place-picker-modal";
+import {Http} from "@angular/http";
+import "rxjs/add/operator/map";
+import {Poi} from "../../models/Poi";
 
 declare var NavitiaSDK: NavitiaSDKApi;
 
@@ -15,6 +18,7 @@ declare var NavitiaSDK: NavitiaSDKApi;
     templateUrl: 'home.html'
 })
 export class HomePage {
+    pois: Array<Poi> = [];
 
     currentAddress: {
         label: string;
@@ -32,7 +36,8 @@ export class HomePage {
                 private platform: Platform,
                 private zone: NgZone,
                 private geolocation: Geolocation,
-                private navitiaHTTP: HTTP) {
+                private navitiaHTTP: HTTP,
+                private http: Http) {
         this.platform.ready().then(() => {
             NavitiaSDK.init('9e304161-bb97-4210-b13d-c71eaf58961c');
             this.navitiaHTTP.useBasicAuth('9e304161-bb97-4210-b13d-c71eaf58961c', '');
@@ -44,6 +49,7 @@ export class HomePage {
                             coords: resp.coords
                         }
                     });
+                    this.getCoffeeShopsNearby();
                 }, (reason) => {
                     alert(JSON.stringify(reason));
                 });
@@ -90,5 +96,22 @@ export class HomePage {
             });
         });
         placePickerModal.present();
+    }
+
+
+    getCoffeeShopsNearby() {
+        this.http.get('../../assets/data/pois.json')
+            .map(res => res.json())
+            .subscribe((jsonPois) => {
+                this.pois = [];
+                jsonPois.map(rawPoi => new Poi(rawPoi))
+                    .filter((poi: Poi) => {
+                        return ((poi.coords !== undefined) && (poi.displayInformation !== undefined) && (poi.displayInformation.addressLabel !== undefined));
+                    }).map((poi: Poi) => {
+                    this.zone.run(() => {
+                        this.pois.push(poi);
+                    });
+                })
+            });
     }
 }
