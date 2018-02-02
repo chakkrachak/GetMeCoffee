@@ -1,3 +1,15 @@
 place-card {
+    .item {
+        font-weight: bold;
+        font-size: x-large;
+        text-align: center;
+    }
 
+    .list-ios .item-block .item-inner {
+        border-bottom: 0;
+    }
+
+    .item-ios.item-block .item-inner {
+        border-bottom: 0;
+    }
 }

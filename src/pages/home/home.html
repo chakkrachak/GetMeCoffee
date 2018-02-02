@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title (click)="pickPlace()">
-      {{ currentAddress.label }}
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title (click)="pickPlace()">
+            {{ currentAddress.label }}
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-<ion-list>
-<place-card *ngFor="let poi of pois" [poi]="poi"></place-card>
-</ion-list>
+    <ion-list>
+        <place-card *ngFor="let poi of pois" [poi]="poi"></place-card>
+    </ion-list>
 </ion-content>
